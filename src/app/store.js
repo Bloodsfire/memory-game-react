@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import fieldReducer from '../features/card/cardsSlice';
 
 export default configureStore({
   reducer: {
-    counter: counterReducer,
+    cards: fieldReducer
   },
 });
