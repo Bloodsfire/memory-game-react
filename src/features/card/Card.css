@@ -1,0 +1,19 @@
+.card {
+    flex: 1 0 calc(16.666% - 10px);
+    background: lightgoldenrodyellow;
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px lightcyan;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.card:hover {
+    border: 3px solid lightcoral;
+}
+
+.card:after {
+    content: '';
+    display: block;
+    padding-bottom: 100%;
+}
