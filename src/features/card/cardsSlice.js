@@ -4,15 +4,17 @@ function shuffle(array) {
     return array.sort(() => Math.random() - 0.5);
 }
 
-let images = [...Array(18)].map((el, id) => `img${id+1}`);
+let images = [...Array(18)].map((el, id) => id);
 images = [...images, ...images];
 
-let initialState = images.map((el, id) => {
+let initialState = images.map((img, id) => {
+    const pairId = Math.floor(id / 2);
+
     return {
         id,
-        img: '/logo192.png',
+        img: `/images/${pairId}.png`,
         flipped: false,
-        pairId: Math.floor(id / 2),
+        pairId,
         solved: false
     }
 });
