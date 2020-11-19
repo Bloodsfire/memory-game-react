@@ -5,6 +5,7 @@ function shuffle(array) {
 }
 
 let images = [...Array(18)].map((el, id) => id);
+// let images = [...Array(3)].map((el, id) => id);
 images = [...images, ...images];
 
 let cards = images.map((img, id) => {
@@ -37,7 +38,7 @@ export const cardsSlice = createSlice({
             const flippedCards = state.cards.filter(card => card.flipped);
 
             if (flippedCards.length > 1) {
-                flippedCards.map(card => {
+                flippedCards.forEach(card => {
                     card.isSolved = flippedCards[0].pairId === flippedCards[1].pairId;
                     card.flipped = false
                 })
