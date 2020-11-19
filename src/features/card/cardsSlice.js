@@ -1,13 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-//TODO: create "pairs" by some pairId
 //TODO: set prop "hidden" for founded pair
+//TODO: add shuffle for cards array
 
-const initialState = [...Array(36)].map((el, id) => {
+let images = [...Array(18)].map((el, id) => `img${id+1}`);
+images = [...images, ...images];
+
+const initialState = images.map((el, id) => {
     return {
         id,
         img: '/logo192.png',
-        flipped: false
+        flipped: false,
+        pairId: Math.floor(id / 2)
     }
 });
 
