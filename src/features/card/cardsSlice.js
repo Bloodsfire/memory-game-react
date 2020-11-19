@@ -7,7 +7,7 @@ function shuffle(array) {
 let images = [...Array(18)].map((el, id) => id);
 images = [...images, ...images];
 
-let initialState = images.map((img, id) => {
+let cards = images.map((img, id) => {
     const pairId = Math.floor(id / 2);
 
     return {
@@ -15,39 +15,45 @@ let initialState = images.map((img, id) => {
         img: `/images/${pairId}.png`,
         flipped: false,
         pairId,
-        solved: false
+        isSolved: false
     }
 });
 
-initialState = shuffle(initialState);
+cards = shuffle(cards);
 
 export const cardsSlice = createSlice({
     name: 'cards',
-    initialState,
+    initialState: {
+        cards,
+        isEnded: false
+    },
     reducers: {
         setCardFlipped: (state, action) => {
             const { cardId, value } = action.payload;
-            const card = state.find(card => card.id === cardId);
+            const card = state.cards.find(card => card.id === cardId);
             card.flipped = value;
         },
         checkSolved: (state) => {
-            const flippedCards = state.filter(card => card.flipped);
+            const flippedCards = state.cards.filter(card => card.flipped);
 
             if (flippedCards.length > 1) {
                 flippedCards.map(card => {
-                    card.solved = flippedCards[0].pairId === flippedCards[1].pairId;
+                    card.isSolved = flippedCards[0].pairId === flippedCards[1].pairId;
                     card.flipped = false
                 })
             }
-        }
+        },
+        checkEnded: (state) => {
+            state.isEnded = state.cards.every(card => card.isSolved);
+        },
     }
 });
 
-export const { setCardFlipped, checkSolved } = cardsSlice.actions;
+export const { setCardFlipped, checkSolved, checkEnded } = cardsSlice.actions;
 
 export const pickCard = cardId => (dispatch, getState) => {
     const cards = getState().cards;
-    const flippedCount = cards.filter(card => card.flipped)?.length;
+    const flippedCount = cards.cards.filter(card => card.flipped)?.length;
 
     if (flippedCount > 1) return;
 
@@ -55,6 +61,7 @@ export const pickCard = cardId => (dispatch, getState) => {
 
     setTimeout(() => {
         dispatch(checkSolved());
+        dispatch(checkEnded())
     }, 1500);
 
     setTimeout(() => {
@@ -62,8 +69,9 @@ export const pickCard = cardId => (dispatch, getState) => {
     }, 5000);
 };
 
-export const selectCards = state => state.cards;
-export const selectCardsIds = state => state.cards.map(card => card.id);
-export const selectCardById = (state, cardId) => state.cards.find(card => card.id === cardId);
+export const selectCards = state => state.cards.cards;
+export const selectCardsIds = state => state.cards.cards.map(card => card.id);
+export const selectCardById = (state, cardId) => state.cards.cards.find(card => card.id === cardId);
+export const selectIsEnded = state => state.cards.isEnded;
 
 export default cardsSlice.reducer;
