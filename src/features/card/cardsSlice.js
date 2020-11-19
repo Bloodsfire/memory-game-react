@@ -1,11 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-//TODO: add shuffle for cards array
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
 
 let images = [...Array(18)].map((el, id) => `img${id+1}`);
 images = [...images, ...images];
 
-const initialState = images.map((el, id) => {
+let initialState = images.map((el, id) => {
     return {
         id,
         img: '/logo192.png',
@@ -14,6 +16,8 @@ const initialState = images.map((el, id) => {
         solved: false
     }
 });
+
+initialState = shuffle(initialState);
 
 export const cardsSlice = createSlice({
     name: 'cards',
