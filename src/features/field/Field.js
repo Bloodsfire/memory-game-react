@@ -10,7 +10,7 @@ export function Field() {
 
     return (
         <div className="field">
-            {cardsIds.map(cardId => <Card cardId={cardId}/>)}
+            {cardsIds.map(cardId => <Card key={cardId} cardId={cardId}/>)}
         </div>
     );
 }

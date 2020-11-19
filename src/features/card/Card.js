@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { selectCardById, toggleFlipped } from "./cardsSlice";
+import { selectCardById, pickCard } from "./cardsSlice";
 
 import './Card.css';
 
@@ -9,7 +9,7 @@ export function Card({ cardId }) {
     const dispatch = useDispatch();
 
     return (
-        <div className="card" onClick={() => dispatch(toggleFlipped(cardId))}>
+        <div className="card" onClick={() => dispatch(pickCard(cardId))}>
             <div className={`card-inner ${card.flipped && 'flipped'}`}>
                 <div className="card-front" />
                 <div className={`card-back ${card.flipped && 'flipped'}`}>
