@@ -1,0 +1,10 @@
+.field {
+    width: 40%;
+    margin: 50px auto 0;
+    border: 3px solid lightcyan;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    border-radius: 10px;
+    background: lightslategray;
+}
