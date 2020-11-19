@@ -1,15 +1,16 @@
 import React from 'react';
-import './Field.css';
+import { useSelector } from "react-redux";
+import { selectCardsIds } from "../card/cardsSlice";
 
+import './Field.css';
 import { Card } from "../card/Card";
 
 export function Field() {
-
-    const arr = [...Array(36)];
+    const cardsIds = useSelector(selectCardsIds);
 
     return (
         <div className="field">
-            {arr.map(() => <Card />)}
+            {cardsIds.map(cardId => <Card cardId={cardId}/>)}
         </div>
     );
 }
