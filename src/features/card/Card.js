@@ -9,7 +9,7 @@ export function Card({ cardId }) {
     const dispatch = useDispatch();
 
     return (
-        <div className="card" onClick={() => dispatch(pickCard(cardId))}>
+        <div className={`card card--${card.solved && 'solved'}`} onClick={() => dispatch(pickCard(cardId))}>
             <div className={`card-inner ${card.flipped && 'flipped'}`}>
                 <div className="card-front" />
                 <div className={`card-back ${card.flipped && 'flipped'}`}>

@@ -19,6 +19,10 @@
     padding-bottom: 100%;
 }
 
+.card--solved {
+    visibility: hidden;
+}
+
 .card-inner {
     position: relative;
     width: 100%;

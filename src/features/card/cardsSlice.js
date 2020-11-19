@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-//TODO: set prop "hidden" for founded pair
 //TODO: add shuffle for cards array
 
 let images = [...Array(18)].map((el, id) => `img${id+1}`);
@@ -11,7 +10,8 @@ const initialState = images.map((el, id) => {
         id,
         img: '/logo192.png',
         flipped: false,
-        pairId: Math.floor(id / 2)
+        pairId: Math.floor(id / 2),
+        solved: false
     }
 });
 
@@ -23,14 +23,33 @@ export const cardsSlice = createSlice({
             const { cardId, value } = action.payload;
             const card = state.find(card => card.id === cardId);
             card.flipped = value;
+        },
+        checkSolved: (state) => {
+            const flippedCards = state.filter(card => card.flipped);
+
+            if (flippedCards.length > 1) {
+                flippedCards.map(card => {
+                    card.solved = flippedCards[0].pairId === flippedCards[1].pairId;
+                    card.flipped = false
+                })
+            }
         }
     }
 });
 
-export const { setCardFlipped } = cardsSlice.actions;
+export const { setCardFlipped, checkSolved } = cardsSlice.actions;
 
-export const pickCard = cardId => dispatch => {
+export const pickCard = cardId => (dispatch, getState) => {
+    const cards = getState().cards;
+    const flippedCount = cards.filter(card => card.flipped)?.length;
+
+    if (flippedCount > 1) return;
+
     dispatch(setCardFlipped({cardId, value: true}));
+
+    setTimeout(() => {
+        dispatch(checkSolved());
+    }, 1500);
 
     setTimeout(() => {
         dispatch(setCardFlipped({cardId, value: false}));
